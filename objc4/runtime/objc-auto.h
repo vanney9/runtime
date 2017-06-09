@@ -26,7 +26,7 @@
 
 #pragma GCC system_header
 
-#include <objc/objc.h>
+#include "objc.h"
 #include <malloc/malloc.h>
 #include <stdint.h>
 #include <stddef.h>

@@ -26,8 +26,8 @@
 
 #pragma GCC system_header
 
-#include <objc/objc.h>
-#include <objc/runtime.h>
+#include "objc.h"
+#include "runtime.h"
 
 #pragma GCC system_header
 

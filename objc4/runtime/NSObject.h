@@ -7,8 +7,10 @@
 
 #if __OBJC__
 
-#include <objc/objc.h>
-#include <objc/NSObjCRuntime.h>
+//#include <objc/objc.h>
+#include "objc.h"
+//#include <objc/NSObjCRuntime.h>
+#include "NSObjCRuntime.h"
 
 @class NSString, NSMethodSignature, NSInvocation;
 

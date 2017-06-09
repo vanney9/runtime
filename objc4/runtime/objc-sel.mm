@@ -136,6 +136,13 @@ static SEL search_builtins(const char *name)
 }
 
 
+/**
+ * 运行时注册方法
+ * @param name
+ * @param lock
+ * @param copy
+ * @return
+ */
 static SEL __sel_registerName(const char *name, int lock, int copy) 
 {
     SEL result = 0;

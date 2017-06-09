@@ -37,7 +37,7 @@
 #define _OBJC_PRIVATE_H_
 #include <stdint.h>
 #include <objc/hashtable.h>
-#include <objc/maptable.h>
+#include "maptable.h"
 
 __BEGIN_DECLS
 

@@ -24,7 +24,7 @@
 #ifndef _OBJC_RUNTIME_H
 #define _OBJC_RUNTIME_H
 
-#include <objc/objc.h>
+#include "objc.h"
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -97,6 +97,8 @@ typedef struct {
 
 /** 
  * Returns a copy of a given object.
+ *
+ * 拷贝对象
  * 
  * @param obj An Objective-C object.
  * @param size The size of the object \e obj.
@@ -109,6 +111,8 @@ OBJC_EXPORT id object_copy(id obj, size_t size)
 
 /** 
  * Frees the memory occupied by a given object.
+ *
+ * 释放对象占据的内存
  * 
  * @param obj An Objective-C object.
  * 
@@ -120,7 +124,9 @@ OBJC_EXPORT id object_dispose(id obj)
 
 /** 
  * Returns the class of an object.
- * 
+ *
+ * 返回对象的类，类是一个结构体指针
+ *
  * @param obj The object you want to inspect.
  * 
  * @return The class object of which \e object is an instance, 
@@ -131,6 +137,8 @@ OBJC_EXPORT Class object_getClass(id obj)
 
 /** 
  * Sets the class of an object.
+ *
+ * 改变一个对象所属的类，厉害了
  * 
  * @param obj The object to modify.
  * @param cls A class object.
@@ -143,6 +151,8 @@ OBJC_EXPORT Class object_setClass(id obj, Class cls)
 
 /** 
  * Returns whether an object is a class object.
+ *
+ * 检查对象是否是一个类对象，如果obj是class或者metaclass，那么返回yes
  * 
  * @param obj An Objective-C object.
  * 
@@ -154,7 +164,9 @@ OBJC_EXPORT BOOL object_isClass(id obj)
 
 /** 
  * Reads the value of an instance variable in an object.
- * 
+ *
+ * 读取对象的某个特定的属性
+ *
  * @param obj The object containing the instance variable whose value you want to read.
  * @param ivar The Ivar describing the instance variable whose value you want to read.
  * 
@@ -168,7 +180,9 @@ OBJC_EXPORT id object_getIvar(id obj, Ivar ivar)
 
 /** 
  * Sets the value of an instance variable in an object.
- * 
+ *
+ * 设置对象的某个特定属性的值，并使用内存语义管理
+ *
  * @param obj The object containing the instance variable whose value you want to set.
  * @param ivar The Ivar describing the instance variable whose value you want to set.
  * @param value The new value for the instance variable.
@@ -256,7 +270,9 @@ OBJC_EXPORT Ivar object_getInstanceVariable(id obj, const char *name, void **out
 
 /** 
  * Returns the class definition of a specified class.
- * 
+ *
+ * 根据类名获取Class结构体
+ *
  * @param name The name of the class to look up.
  * 
  * @return The Class object for the named class, or \c nil
@@ -275,7 +291,9 @@ OBJC_EXPORT Class objc_getClass(const char *name)
 
 /** 
  * Returns the metaclass definition of a specified class.
- * 
+ *
+ * 根据类名 获取metaclass结构体
+ *
  * @param name The name of the class to look up.
  * 
  * @return The \c Class object for the metaclass of the named class, or \c nil if the class
@@ -289,9 +307,12 @@ OBJC_EXPORT Class objc_getClass(const char *name)
 OBJC_EXPORT Class objc_getMetaClass(const char *name)
     OBJC_AVAILABLE(10.0, 2.0, 9.0, 1.0);
 
+// TODO - where is the difference
 /** 
  * Returns the class definition of a specified class.
- * 
+ *
+ * 和 objc_getClass 还是有点区别的
+ *
  * @param name The name of the class to look up.
  * 
  * @return The Class object for the named class, or \c nil if the class
@@ -306,7 +327,9 @@ OBJC_EXPORT Class objc_lookUpClass(const char *name)
 
 /** 
  * Returns the class definition of a specified class.
- * 
+ *
+ * 和 objc_getClass 一样，不过当class不存在时，程序死掉
+ *
  * @param name The name of the class to look up.
  * 
  * @return The Class object for the named class.
@@ -317,9 +340,11 @@ OBJC_EXPORT Class objc_lookUpClass(const char *name)
 OBJC_EXPORT Class objc_getRequiredClass(const char *name)
     OBJC_AVAILABLE(10.0, 2.0, 9.0, 1.0);
 
+
+// TODO - question?
 /** 
  * Obtains the list of registered class definitions.
- * 
+ *
  * @param buffer An array of \c Class values. On output, each \c Class value points to
  *  one class definition, up to either \e bufferCount or the total number of registered classes,
  *  whichever is less. You can pass \c NULL to obtain the total number of registered class
@@ -357,6 +382,8 @@ OBJC_EXPORT Class *objc_copyClassList(unsigned int *outCount)
 
 /** 
  * Returns the name of a class.
+ *
+ * 获取class的名字
  * 
  * @param cls A class object.
  * 
@@ -367,7 +394,9 @@ OBJC_EXPORT const char *class_getName(Class cls)
 
 /** 
  * Returns a Boolean value that indicates whether a class object is a metaclass.
- * 
+ *
+ * 查看是否是metaclass
+ *
  * @param cls A class object.
  * 
  * @return \c YES if \e cls is a metaclass, \c NO if \e cls is a non-meta class, 
@@ -378,7 +407,9 @@ OBJC_EXPORT BOOL class_isMetaClass(Class cls)
 
 /** 
  * Returns the superclass of a class.
- * 
+ *
+ * 获取类的超类
+ *
  * @param cls A class object.
  * 
  * @return The superclass of the class, or \c Nil if
@@ -391,6 +422,8 @@ OBJC_EXPORT Class class_getSuperclass(Class cls)
 
 /** 
  * Sets the superclass of a given class.
+ *
+ * 改变类的超类。。
  * 
  * @param cls The class whose superclass you want to set.
  * @param newSuper The new superclass for cls.
@@ -407,7 +440,9 @@ OBJC_EXPORT Class class_setSuperclass(Class cls, Class newSuper)
 
 /** 
  * Returns the version number of a class definition.
- * 
+ *
+ * 获取类的版本号信息
+ *
  * @param cls A pointer to a \c Class data structure. Pass
  *  the class definition for which you wish to obtain the version.
  * 
@@ -420,7 +455,9 @@ OBJC_EXPORT int class_getVersion(Class cls)
 
 /** 
  * Sets the version number of a class definition.
- * 
+ *
+ * 设置类的版本号
+ *
  * @param cls A pointer to an Class data structure. 
  *  Pass the class definition for which you wish to set the version.
  * @param version An integer. Pass the new version number of the class definition.
@@ -437,7 +474,9 @@ OBJC_EXPORT void class_setVersion(Class cls, int version)
 
 /** 
  * Returns the size of instances of a class.
- * 
+ *
+ * 获取类的实例的内存大小
+ *
  * @param cls A class object.
  * 
  * @return The size in bytes of instances of the class \e cls, or \c 0 if \e cls is \c Nil.
@@ -447,7 +486,9 @@ OBJC_EXPORT size_t class_getInstanceSize(Class cls)
 
 /** 
  * Returns the \c Ivar for a specified instance variable of a given class.
- * 
+ *
+ * 貌似是获取类的实例变量
+ *
  * @param cls The class whose instance variable you wish to obtain.
  * @param name The name of the instance variable definition to obtain.
  * 
@@ -459,7 +500,9 @@ OBJC_EXPORT Ivar class_getInstanceVariable(Class cls, const char *name)
 
 /** 
  * Returns the Ivar for a specified class variable of a given class.
- * 
+ *
+ * 好像和上面的没差。。。
+ *
  * @param cls The class definition whose class variable you wish to obtain.
  * @param name The name of the class variable definition to obtain.
  * 
@@ -470,7 +513,9 @@ OBJC_EXPORT Ivar class_getClassVariable(Class cls, const char *name)
 
 /** 
  * Describes the instance variables declared by a class.
- * 
+ *
+ * 获取类的实例变量的列表，copy下来
+ *
  * @param cls The class to inspect.
  * @param outCount On return, contains the length of the returned array. 
  *  If outCount is NULL, the length is not returned.
@@ -484,9 +529,12 @@ OBJC_EXPORT Ivar class_getClassVariable(Class cls, const char *name)
 OBJC_EXPORT Ivar *class_copyIvarList(Class cls, unsigned int *outCount) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+// TODO - 注意Method和SEL的区别
 /** 
  * Returns a specified instance method for a given class.
- * 
+ *
+ * 通过SEL选择子，获取方法，注意Method和SEL的区别
+ *
  * @param cls The class you want to inspect.
  * @param name The selector of the method you want to retrieve.
  * 
@@ -501,7 +549,10 @@ OBJC_EXPORT Method class_getInstanceMethod(Class cls, SEL name)
 
 /** 
  * Returns a pointer to the data structure describing a given class method for a given class.
- * 
+ *
+ * 获取类方法，注意：这里可能是跑到metaclass里面去拿类方法的定义。
+ * 再注意：该方法还会到超类里面去找
+ *
  * @param cls A pointer to a class definition. Pass the class that contains the method you want to retrieve.
  * @param name A pointer of type \c SEL. Pass the selector of the method you want to retrieve.
  * 
@@ -518,7 +569,9 @@ OBJC_EXPORT Method class_getClassMethod(Class cls, SEL name)
 /** 
  * Returns the function pointer that would be called if a 
  * particular message were sent to an instance of a class.
- * 
+ *
+ * 获取方法的实现，返回函数指针。这个是动态完成的，可能涉及到消息转发等等
+ *
  * @param cls The class you want to inspect.
  * @param name A selector.
  * 
@@ -533,10 +586,14 @@ OBJC_EXPORT Method class_getClassMethod(Class cls, SEL name)
 OBJC_EXPORT IMP class_getMethodImplementation(Class cls, SEL name) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+
+// TODO - 不一般情况是什么
 /** 
  * Returns the function pointer that would be called if a particular 
  * message were sent to an instance of a class.
- * 
+ *
+ * 动态获取方法具体实现的边界条件，也就是不一般情况下才会执行该方法
+ *
  * @param cls The class you want to inspect.
  * @param name A selector.
  * 
@@ -549,7 +606,9 @@ OBJC_EXPORT IMP class_getMethodImplementation_stret(Class cls, SEL name)
 
 /** 
  * Returns a Boolean value that indicates whether instances of a class respond to a particular selector.
- * 
+ *
+ * 查看类是否能处理该方法
+ *
  * @param cls The class you want to inspect.
  * @param sel A selector.
  * 
@@ -561,9 +620,13 @@ OBJC_EXPORT IMP class_getMethodImplementation_stret(Class cls, SEL name)
 OBJC_EXPORT BOOL class_respondsToSelector(Class cls, SEL sel) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+
+// TODO - 这个outcount是个啥？
 /** 
  * Describes the instance methods implemented by a class.
- * 
+ *
+ * 拷贝类的方法列表，这个outcount是个啥？
+ *
  * @param cls The class you want to inspect.
  * @param outCount On return, contains the length of the returned array. 
  *  If outCount is NULL, the length is not returned.
@@ -583,7 +646,9 @@ OBJC_EXPORT Method *class_copyMethodList(Class cls, unsigned int *outCount)
 
 /** 
  * Returns a Boolean value that indicates whether a class conforms to a given protocol.
- * 
+ *
+ * 判断类是否遵循某协议
+ *
  * @param cls The class you want to inspect.
  * @param protocol A protocol.
  *
@@ -594,9 +659,11 @@ OBJC_EXPORT Method *class_copyMethodList(Class cls, unsigned int *outCount)
 OBJC_EXPORT BOOL class_conformsToProtocol(Class cls, Protocol *protocol) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+
+// TODO - ？？？
 /** 
  * Describes the protocols adopted by a class.
- * 
+ *
  * @param cls The class you want to inspect.
  * @param outCount On return, contains the length of the returned array. 
  *  If outCount is NULL, the length is not returned.
@@ -612,7 +679,9 @@ OBJC_EXPORT Protocol * __unsafe_unretained *class_copyProtocolList(Class cls, un
 
 /** 
  * Returns a property with a given name of a given class.
- * 
+ *
+ * 获取类的属性
+ *
  * @param cls The class you want to inspect.
  * @param name The name of the property you want to inspect.
  * 
@@ -625,7 +694,9 @@ OBJC_EXPORT objc_property_t class_getProperty(Class cls, const char *name)
 
 /** 
  * Describes the properties declared by a class.
- * 
+ *
+ * 获取属性列表
+ *
  * @param cls The class you want to inspect.
  * @param outCount On return, contains the length of the returned array. 
  *  If \e outCount is \c NULL, the length is not returned.        
@@ -639,9 +710,10 @@ OBJC_EXPORT objc_property_t class_getProperty(Class cls, const char *name)
 OBJC_EXPORT objc_property_t *class_copyPropertyList(Class cls, unsigned int *outCount)
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+// TODO - ？？？
 /** 
  * Returns a description of the \c Ivar layout for a given class.
- * 
+ *
  * @param cls The class to inspect.
  * 
  * @return A description of the \c Ivar layout for \e cls.
@@ -661,6 +733,8 @@ OBJC_EXPORT const uint8_t *class_getWeakIvarLayout(Class cls)
 
 /** 
  * Adds a new method to a class with a given name and implementation.
+ *
+ * 动态添加方法，会覆盖超类的方法
  * 
  * @param cls The class to which to add a method.
  * @param name A selector that specifies the name of the method being added.
@@ -680,7 +754,9 @@ OBJC_EXPORT BOOL class_addMethod(Class cls, SEL name, IMP imp,
 
 /** 
  * Replaces the implementation of a method for a given class.
- * 
+ *
+ * 用a的实现代替b的实现
+ *
  * @param cls The class you want to modify.
  * @param name A selector that identifies the method whose implementation you want to replace.
  * @param imp The new implementation for the method identified by name for the class identified by cls.
@@ -702,7 +778,9 @@ OBJC_EXPORT IMP class_replaceMethod(Class cls, SEL name, IMP imp,
 
 /** 
  * Adds a new instance variable to a class.
- * 
+ *
+ * 给类添加一个实例变量
+ *
  * @return YES if the instance variable was added successfully, otherwise NO 
  *         (for example, the class already contains an instance variable with that name).
  *
@@ -719,7 +797,9 @@ OBJC_EXPORT BOOL class_addIvar(Class cls, const char *name, size_t size,
 
 /** 
  * Adds a protocol to a class.
- * 
+ *
+ * 添加协议
+ *
  * @param cls The class to modify.
  * @param protocol The protocol to add to \e cls.
  * 
@@ -729,9 +809,13 @@ OBJC_EXPORT BOOL class_addIvar(Class cls, const char *name, size_t size,
 OBJC_EXPORT BOOL class_addProtocol(Class cls, Protocol *protocol) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+
+// TODO - 注意和添加实例变量的不同
 /** 
  * Adds a property to a class.
- * 
+ *
+ * 添加属性
+ *
  * @param cls The class to modify.
  * @param name The name of the property.
  * @param attributes An array of property attributes.
@@ -745,7 +829,7 @@ OBJC_EXPORT BOOL class_addProperty(Class cls, const char *name, const objc_prope
 
 /** 
  * Replace a property of a class. 
- * 
+ *
  * @param cls The class to modify.
  * @param name The name of the property.
  * @param attributes An array of property attributes.
@@ -788,11 +872,14 @@ OBJC_EXPORT Class objc_getFutureClass(const char *name)
 
 
 /* Instantiating Classes */
+// 初始化类
 
 /** 
  * Creates an instance of a class, allocating memory for the class in the 
  * default malloc memory zone.
- * 
+ *
+ * 创建一个类实例，也就是对象。这个额外的内存空间，用来存放不定义在类中的实例变量
+ *
  * @param cls The class that you wish to allocate an instance of.
  * @param extraBytes An integer indicating the number of extra bytes to allocate. 
  *  The additional bytes can be used to store additional instance variables beyond 
@@ -806,7 +893,9 @@ OBJC_EXPORT id class_createInstance(Class cls, size_t extraBytes)
 
 /** 
  * Creates an instance of a class at the specific location provided.
- * 
+ *
+ * 在特定的内存位置 创建对象
+ *
  * @param cls The class that you wish to allocate an instance of.
  * @param bytes The location at which to allocate an instance of \e cls.
  *  Must point to at least \c class_getInstanceSize(cls) bytes of well-aligned,
@@ -824,7 +913,9 @@ OBJC_EXPORT id objc_constructInstance(Class cls, void *bytes)
 /** 
  * Destroys an instance of a class without freeing memory and removes any
  * associated references this instance might have had.
- * 
+ *
+ * 销毁对象，remove任何的关联对象
+ *
  * @param obj The class instance to destroy.
  * 
  * @return \e obj. Does nothing if \e obj is nil.
@@ -840,7 +931,9 @@ OBJC_EXPORT void *objc_destructInstance(id obj)
 
 /** 
  * Creates a new class and metaclass.
- * 
+ *
+ * 创建新的类和metaclass
+ *
  * @param superclass The class to use as the new class's superclass, or \c Nil to create a new root class.
  * @param name The string to use as the new class's name. The string will be copied.
  * @param extraBytes The number of bytes to allocate for indexed ivars at the end of 
@@ -859,9 +952,10 @@ OBJC_EXPORT Class objc_allocateClassPair(Class superclass, const char *name,
                                          size_t extraBytes) 
     OBJC_AVAILABLE(10.5, 2.0, 9.0, 1.0);
 
+// TODO - 注册class？？？
 /** 
  * Registers a class that was allocated using \c objc_allocateClassPair.
- * 
+ *
  * @param cls The class you want to register.
  */
 OBJC_EXPORT void objc_registerClassPair(Class cls) 

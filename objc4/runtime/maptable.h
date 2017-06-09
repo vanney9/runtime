@@ -37,7 +37,7 @@
 #   define OBJC_MAP_AVAILABILITY
 #endif
 
-#include <objc/objc.h>
+#include "objc.h"
 
 __BEGIN_DECLS
 

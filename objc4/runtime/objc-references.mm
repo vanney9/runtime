@@ -26,7 +26,7 @@
 
 
 #include "objc-private.h"
-#include <objc/message.h>
+#include "message.h"
 #include <map>
 
 #if _LIBCPP_VERSION

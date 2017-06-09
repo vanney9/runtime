@@ -30,7 +30,7 @@
 
 #include <sys/types.h>      // for __DARWIN_NULL
 #include <Availability.h>
-#include <objc/objc-api.h>
+#include "objc-api.h"
 #include <stdbool.h>
 
 #if !OBJC_TYPES_DEFINED
@@ -130,7 +130,9 @@ typedef id (*IMP)(id, SEL, ...);
 
 /** 
  * Returns the name of the method specified by a given selector.
- * 
+ *
+ * 返回给定的选择子的方法名，也就是返回sel对应的名字
+ *
  * @param sel A pointer of type \c SEL. Pass the selector whose name you wish to determine.
  * 
  * @return A C string indicating the name of the selector.
@@ -141,6 +143,8 @@ OBJC_EXPORT const char *sel_getName(SEL sel)
 /** 
  * Registers a method with the Objective-C runtime system, maps the method 
  * name to a selector, and returns the selector value.
+ *
+ * 运行时动态新增方法，并返回方法的SEL
  * 
  * @param str A pointer to a C string. Pass the name of the method you wish to register.
  * 
@@ -155,7 +159,9 @@ OBJC_EXPORT SEL sel_registerName(const char *str)
 
 /** 
  * Returns the class name of a given object.
- * 
+ *
+ * 获取对象的类的名字并返回
+ *
  * @param obj An Objective-C object.
  * 
  * @return The name of the class of which \e obj is an instance.
@@ -165,7 +171,9 @@ OBJC_EXPORT const char *object_getClassName(id obj)
 
 /** 
  * Returns a pointer to any extra bytes allocated with an instance given object.
- * 
+ *
+ * 返回分配个对象的额外内存空间的首地址，从这个地址开始 存放的就是对象的实例变量。返回的地址是8字节（指针内存大小，相对于64位系统）地址对齐的
+ *
  * @param obj An Objective-C object.
  * 
  * @return A pointer to any extra bytes allocated with \e obj. If \e obj was
@@ -185,7 +193,9 @@ OBJC_EXPORT void *object_getIndexedIvars(id obj)
 
 /** 
  * Identifies a selector as being valid or invalid.
- * 
+ *
+ * 查看SEL方法是否被map到对象上面？
+ *
  * @param sel The selector you want to identify.
  * 
  * @return YES if selector is valid and has a function implementation, NO otherwise. 
@@ -198,7 +208,9 @@ OBJC_EXPORT BOOL sel_isMapped(SEL sel)
 
 /** 
  * Registers a method name with the Objective-C runtime system.
- * 
+ *
+ * runtime注册一个方法，并返回SEL
+ *
  * @param str A pointer to a C string. Pass the name of the method you wish to register.
  * 
  * @return A pointer of type SEL specifying the selector for the named method.
@@ -210,6 +222,12 @@ OBJC_EXPORT BOOL sel_isMapped(SEL sel)
  */
 OBJC_EXPORT SEL sel_getUid(const char *str)
     OBJC_AVAILABLE(10.0, 2.0, 9.0, 1.0);
+
+
+
+/**
+ * not understand
+ */
 
 typedef const void* objc_objectptr_t;
 

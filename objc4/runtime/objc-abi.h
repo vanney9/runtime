@@ -39,9 +39,9 @@
 
 #include <malloc/malloc.h>
 #include <TargetConditionals.h>
-#include <objc/objc.h>
-#include <objc/runtime.h>
-#include <objc/message.h>
+#include "objc.h"
+#include "runtime.h"
+#include "message.h"
 
 /* Runtime startup. */
 

@@ -37,8 +37,8 @@
  * objc-internal.h: Private SPI for use by other system frameworks.
  */
 
-#include <objc/objc.h>
-#include <objc/runtime.h>
+#include "objc.h"
+#include "runtime.h"
 #include <Availability.h>
 #include <malloc/malloc.h>
 #include <dispatch/dispatch.h>

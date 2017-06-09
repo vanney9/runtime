@@ -33,7 +33,7 @@
 #include "objc-file.h"
 #include "objc-cache.h"
 #include <Block.h>
-#include <objc/message.h>
+#include "message.h"
 #include <mach/shared_region.h>
 
 #define newprotocol(p) ((protocol_t *)p)
@@ -641,6 +641,11 @@ attachCategories(Class cls, category_list *cats, bool flush_caches)
         auto& entry = cats->list[i];
 
         method_list_t *mlist = entry.cat->methodsForMeta(isMeta);
+        
+        //printf("class name is: %s, category name is: %s\n", cls->mangledName(), (*(entry.cat)).name);
+        //if (!strcmp((*(entry.cat)).name, "vc")) {
+        //    printf("class\n");
+        //}
         if (mlist) {
             mlists[mcount++] = mlist;
             fromBundle |= entry.hi->isBundle();

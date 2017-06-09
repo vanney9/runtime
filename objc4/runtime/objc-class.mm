@@ -158,7 +158,7 @@
 
 #include "objc-private.h"
 #include "objc-abi.h"
-#include <objc/message.h>
+#include "message.h"
 
 
 /* overriding the default object allocation and error handling routines */
